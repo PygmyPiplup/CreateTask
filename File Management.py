@@ -2,33 +2,35 @@ import os
 import shutil
 import tkinter as tk
 from tkinter.filedialog import askdirectory
+import json
+
+
 
 root = tk.Tk()
 
 
-extensions = [".jpg", ".exe", ".png", ".jpeg", ".pdf", ".ppsx", ".txt", ".wvm",
-              ".zip", ".gif", ".jfif", ".psd", ".raw", ".tiff", ".mp3", ".docx", ".py"]
+extensions = {".jpg" : "C:/Sorted/JPG", ".exe" : "C:/Sorted/EXE", ".png" : "C:/Sorted/PNG", ".jpeg" : "C:/Sorted/JPEG", ".pdf" : "C:/Sorted/PDF", ".ppsx" : "C:/Sorted/PPSX",
+              ".txt" : "C:/Sorted/TXT", ".wvm" : "C:/Sorted/WVM", ".zip" : "C:/Sorted/ZIP", ".gif" : "C:/Sorted/GIF", ".jfif" : "C:/Sorted/JFIF",  ".py" : "C:/Sorted/PY",
+              ".psd" : "C:/Sorted/PSD", ".raw" : "C:/Sorted/RAW", ".tiff" : "C:/Sorted/TIFF", ".mp3" : "C:/Sorted/MP3", ".docx" : "C:/Sorted/DOCX", "msi" : "C:/Sorted/MSI"}
 
 
 def starting_location():
-    print("What is your starting location")
-    starting_file = askdirectory()
+    starting_file = "C:/Users/patri/downloads"
+    print(f"Your starting location is {starting_file}")
     return starting_file
 
 
-def ending_location():
+def ending_location(key):
     print("What is your ending location")
-    ending_file = askdirectory()
+    ending_file = extensions.get(key)
     return ending_file
 
 
 def printing_directory(ending):
-
-    print(f"You are attempting to move the {ending}'s")
-    directory = starting_location()
-    ending_file = ending_location()
-    move_all = input(f"You will be moving all of the {ending}'s. Do you want to move all of them?")
-    if move_all.lower() == 'yes':
+    try:
+        print(f"You are attempting to move the {ending}'s")
+        directory = starting_location()
+        ending_file = ending_location(ending)
         for filename in os.listdir(directory):
             if filename.endswith(ending):
                 print(f"{directory}/{filename}")
@@ -36,25 +38,17 @@ def printing_directory(ending):
                 print(f"\tMoved to {ending_file}/{filename}")
             else:
                 continue
-    else:
-        holder = input("Do you want to move any of the files?")
-        if holder.lower() == 'yes':
-            for filename in os.listdir(directory):
-                if filename.endswith(ending):
-                    print(f"{directory}/{filename}")
-                    response = input(f"Would you like to move this file?")
-                    if response.lower() == 'yes':
-                        os.rename(f"{directory}/{filename}", f"{ending_file}/{filename}")
-                        print(f"\tMoved to {ending_file}/{filename}")
-                    else:
-                        print("File was not moved")
-        else:
-            print("No files were moved.")
+    except:
+           print("There were either no files to be moved, or there was an error moving the files. Contact Creator to fix the problem.... Like everything else.")
 
 
 def run_programs():
-    for item in extensions:
-        printing_directory(item)
+    perms = input("Do you want to move all of the files?")
+    if perms.lower() == 'yes':
+        for item in extensions:
+            printing_directory(item)
+    else:
+        print("Have a nice day!")
 
 
 run_programs()
