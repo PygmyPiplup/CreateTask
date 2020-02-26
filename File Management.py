@@ -37,7 +37,7 @@ def starting_location(place):
 
 
 def ending_location(key, place):
-    print("What is your ending location")
+    print("What is your ending location?")
     if place == "home":
         ending_file = home_extensions.get(key)
     else:
@@ -47,7 +47,7 @@ def ending_location(key, place):
 
 def printing_directory(ending, place):
     try:
-        print(f"You are attempting to move the {ending}'s")
+        print(f"You are attempting to move the {ending}s")
         directory = starting_location(place)
         ending_file = ending_location(ending, place)
 
